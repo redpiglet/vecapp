@@ -690,12 +690,8 @@
     button.querySelector('.product-button-label').textContent = products[button.dataset.product].title;
   }
   byId('site-context').textContent = isDemo ? 'Packaging studio demo' : 'Packaging studio pilot';
-  const pilotStatus = byId('pilot-status');
-  pilotStatus.hidden = !isDemo && !catalog.provisional;
-  if (isDemo) {
-    pilotStatus.textContent = 'Sample geometry';
-    byId('product-size-label').textContent = 'Size';
-  }
+  byId('pilot-status').hidden = !catalog.provisional;
+  if (isDemo) byId('product-size-label').textContent = 'Size';
   quoteOpen.closest('.quote-action').hidden = isDemo;
   syncProduct();
   syncLogo();

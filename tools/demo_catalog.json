@@ -1,33 +1,31 @@
 {
   "demo": true,
+  "provisional": true,
   "products": {
     "box": {
-      "title": "Sample carton",
-      "defaultSize": "standard",
+      "title": "N55 Gift carton",
+      "defaultSize": "n55",
       "defaultMaterial": "white",
       "defaultPanel": "closure",
       "sizes": {
-        "standard": {
-          "label": "Standard sample",
-          "previewDimensions": [184, 116, 105],
+        "n55": {
+          "label": "N55",
+          "previewDimensions": [140, 85, 114],
           "model": {
-            "guideSurfaces": ["front", "back", "closure"],
-            "guidePoses": {
-              "front": ["closed", "open"],
-              "back": ["closed", "open"],
-              "closure": ["closed"]
-            }
+            "guideSurfaces": ["closure", "front", "back"]
           },
           "surfacePolicy": {
             "surfaces": [
+              {"id": "closure", "label": "Front closure", "artwork": true, "color": true},
               {"id": "front", "label": "Front", "artwork": true, "color": true},
               {"id": "back", "label": "Back", "artwork": true, "color": true},
-              {"id": "closure", "label": "Lid flap", "artwork": true, "color": true},
-              {"id": "roof", "label": "Lid top", "color": true},
+              {"id": "roof", "label": "Curved roof", "color": true},
               {"id": "left-side", "label": "Left side", "color": true},
               {"id": "right-side", "label": "Right side", "color": true},
+              {"id": "left-wing", "label": "Left wing", "color": true},
+              {"id": "right-wing", "label": "Right wing", "color": true},
               {"id": "base", "label": "Base", "color": true},
-              {"id": "interior", "label": "Interior", "color": true}
+              {"id": "interior", "label": "Interior"}
             ]
           }
         }
@@ -36,14 +34,14 @@
       "ribbonDefault": null
     },
     "bag": {
-      "title": "Sample handled bag",
-      "defaultSize": "standard",
+      "title": "N21 Ribbon-handle bag",
+      "defaultSize": "n21",
       "defaultMaterial": "white",
       "defaultPanel": "front",
       "sizes": {
-        "standard": {
-          "label": "Standard sample",
-          "previewDimensions": [190, 104, 224],
+        "n21": {
+          "label": "N21",
+          "previewDimensions": [240, 60, 165],
           "model": {
             "guideSurfaces": ["front", "back"]
           },
@@ -51,10 +49,10 @@
             "surfaces": [
               {"id": "front", "label": "Front", "artwork": true, "color": true},
               {"id": "back", "label": "Back", "artwork": true, "color": true},
-              {"id": "left-side", "label": "Left side", "color": true},
-              {"id": "right-side", "label": "Right side", "color": true},
-              {"id": "base", "label": "Base", "color": true},
-              {"id": "interior", "label": "Interior", "color": true}
+              {"id": "left-side", "label": "Left gusset"},
+              {"id": "right-side", "label": "Right gusset"},
+              {"id": "base", "label": "Base"},
+              {"id": "interior", "label": "Interior"}
             ]
           }
         }

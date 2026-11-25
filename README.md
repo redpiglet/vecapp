@@ -1,6 +1,6 @@
 # vecapp
 
-The GitHub Pages demo uses an original sample carton and bag, with sample proportions and print surfaces. Visitors can try colors and logos in their browser. The build uses only the shared frontend, the sample catalog, and the sample model generator.
+The GitHub Pages demo uses the approved N55 carton and N21 bag GLB exports in `public-models/`. Visitors can try colors and logos in their browser. The browser downloads the GLBs, which include the real mesh geometry and print-panel measurements.
 
 ## Preview locally
 
@@ -16,7 +16,7 @@ Open [the local demo](http://127.0.0.1:8080/vecapp/). In the private workspace, 
 
 ## Publish on GitHub Pages
 
-The repository and the Pages build are both public. Keep production assets, product settings, review files, and quote data in the private workspace. The ignore file covers the current production paths.
+The repository and the Pages build are both public. Keep Blender sources, original dielines, private catalog and review files, and quote data in the private workspace. The build serves the two listed GLBs and reads product settings from the demo catalog.
 
 1. In the repository's **Settings → Pages**, set **Build and deployment → Source** to **GitHub Actions**.
 2. Stage the demo inputs and review the staged files.
@@ -24,7 +24,8 @@ The repository and the Pages build are both public. Keep production assets, prod
 ```sh
 git add -- .gitignore .github/workflows/pages.yml README.md \
   app.js glb-model.js index.html renderer.js styles.css \
-  tools/build_pages.py tools/demo_catalog.json tools/demo_models.py
+  tools/build_pages.py tools/demo_catalog.json \
+  public-models/n21.glb public-models/n55.glb
 git diff --cached --name-only
 ```
 

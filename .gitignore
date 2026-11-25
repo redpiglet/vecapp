@@ -4,7 +4,7 @@ __pycache__/
 /quote-requests/
 .active.json.lock
 
-# Production inputs and local tools stay out of the public demo repository.
+# Private production sources and local tools stay out of the public repository.
 /catalog.json
 /danebi/
 /models/

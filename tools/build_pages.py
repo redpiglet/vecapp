@@ -6,11 +6,9 @@ import json
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
-from demo_models import demo_model
-
-
 ROOT = Path(__file__).resolve().parents[1]
 DEMO_CATALOG = Path(__file__).with_name("demo_catalog.json")
+PUBLIC_MODELS = {"box": "public-models/n55.glb", "bag": "public-models/n21.glb"}
 
 
 def build(output):
@@ -19,11 +17,10 @@ def build(output):
         name: (ROOT / name).read_bytes()
         for name in ("index.html", "styles.css", "glb-model.js", "renderer.js", "app.js")
     }
-    for product in ("box", "bag"):
+    for product, model_path in PUBLIC_MODELS.items():
         spec = catalog["products"][product]
-        model_path = f"demo-assets/sample-{product}.glb"
         spec["sizes"][spec["defaultSize"]]["model"]["url"] = model_path
-        files[model_path] = demo_model(product)
+        files[model_path] = (ROOT / model_path).read_bytes()
 
     files["catalog.js"] = (
         "window.PackagingCatalog = " + json.dumps(catalog, ensure_ascii=False) + ";\n"
