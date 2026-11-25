@@ -1,0 +1,70 @@
+{
+  "demo": true,
+  "products": {
+    "box": {
+      "title": "Sample carton",
+      "defaultSize": "standard",
+      "defaultMaterial": "white",
+      "defaultPanel": "closure",
+      "sizes": {
+        "standard": {
+          "label": "Standard sample",
+          "previewDimensions": [184, 116, 105],
+          "model": {
+            "guideSurfaces": ["front", "back", "closure"],
+            "guidePoses": {
+              "front": ["closed", "open"],
+              "back": ["closed", "open"],
+              "closure": ["closed"]
+            }
+          },
+          "surfacePolicy": {
+            "surfaces": [
+              {"id": "front", "label": "Front", "artwork": true, "color": true},
+              {"id": "back", "label": "Back", "artwork": true, "color": true},
+              {"id": "closure", "label": "Lid flap", "artwork": true, "color": true},
+              {"id": "roof", "label": "Lid top", "color": true},
+              {"id": "left-side", "label": "Left side", "color": true},
+              {"id": "right-side", "label": "Right side", "color": true},
+              {"id": "base", "label": "Base", "color": true},
+              {"id": "interior", "label": "Interior", "color": true}
+            ]
+          }
+        }
+      },
+      "ribbonColors": {},
+      "ribbonDefault": null
+    },
+    "bag": {
+      "title": "Sample handled bag",
+      "defaultSize": "standard",
+      "defaultMaterial": "white",
+      "defaultPanel": "front",
+      "sizes": {
+        "standard": {
+          "label": "Standard sample",
+          "previewDimensions": [190, 104, 224],
+          "model": {
+            "guideSurfaces": ["front", "back"]
+          },
+          "surfacePolicy": {
+            "surfaces": [
+              {"id": "front", "label": "Front", "artwork": true, "color": true},
+              {"id": "back", "label": "Back", "artwork": true, "color": true},
+              {"id": "left-side", "label": "Left side", "color": true},
+              {"id": "right-side", "label": "Right side", "color": true},
+              {"id": "base", "label": "Base", "color": true},
+              {"id": "interior", "label": "Interior", "color": true}
+            ]
+          }
+        }
+      },
+      "ribbonColors": {
+        "black": "Black",
+        "cream": "Cream",
+        "burgundy": "Burgundy"
+      },
+      "ribbonDefault": "black"
+    }
+  }
+}

@@ -1,0 +1,14 @@
+.DS_Store
+__pycache__/
+/_site/
+/quote-requests/
+.active.json.lock
+
+# Production inputs and local tools stay out of the public demo repository.
+/catalog.json
+/danebi/
+/models/
+/model-review.*
+/model_registry.py
+/server.py
+/tools/export_model.py

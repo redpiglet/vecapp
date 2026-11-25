@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Preview packaging, print colors, and artwork in 3D.">
+  <meta name="theme-color" content="#f8f7f3">
+  <title>Packaging Studio · Vectory</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="catalog.js" defer></script>
+  <script src="glb-model.js" defer></script>
+  <script src="renderer.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <svg class="icon-library" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="icon-box" viewBox="0 0 24 24"><path d="m12 3 9 5v8l-9 5-9-5V8l9-5Z"/><path d="m3 8 9 5 9-5M12 13v8m-4.5-15.5 9 5"/></symbol>
+    <symbol id="icon-bag" viewBox="0 0 24 24"><path d="M5.5 8H19l1.5 13h-17L5.5 8Z"/><path d="M9 10V6a3 3 0 1 1 6 0v4m2.5-2L17 21"/></symbol>
+    <symbol id="icon-upload" viewBox="0 0 24 24"><path d="M12 15V4m-4 4 4-4 4 4M5 15v4a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-4"/></symbol>
+    <symbol id="icon-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+    <symbol id="icon-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+    <symbol id="icon-plus" viewBox="0 0 24 24"><path d="M5 12h14M12 5v14"/></symbol>
+    <symbol id="icon-reset" viewBox="0 0 24 24"><path d="M4 11a8 8 0 1 1 2.2 6.4M4 5v6h6"/></symbol>
+    <symbol id="icon-front" viewBox="0 0 24 24"><path d="M4 9V5a1 1 0 0 1 1-1h4m6 0h4a1 1 0 0 1 1 1v4m0 6v4a1 1 0 0 1-1 1h-4m-6 0H5a1 1 0 0 1-1-1v-4"/><path d="M9 9h6v6H9z"/></symbol>
+  </svg>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="wordmark">Vectory</div>
+      <div id="site-context" class="site-context">Packaging studio</div>
+    </div>
+  </header>
+
+  <p id="studio-error" class="studio-error" role="alert" hidden></p>
+
+  <main class="workspace">
+    <section class="choose-product" aria-labelledby="studio-title">
+      <h1 id="studio-title">Design your packaging</h1>
+      <fieldset class="product-options">
+        <legend>Product</legend>
+        <div class="product-buttons">
+          <button class="product-button" type="button" data-product="box" aria-pressed="true">
+            <svg class="icon" aria-hidden="true"><use href="#icon-box"></use></svg>
+            <span class="product-button-label">Carton</span>
+          </button>
+          <button class="product-button" type="button" data-product="bag" aria-pressed="false">
+            <svg class="icon" aria-hidden="true"><use href="#icon-bag"></use></svg>
+            <span class="product-button-label">Handled bag</span>
+          </button>
+        </div>
+      </fieldset>
+    </section>
+
+    <section class="preview-panel" aria-label="Interactive 3D preview">
+      <canvas id="product-canvas" tabindex="0" aria-label="3D model. Drag or use the arrow keys to rotate.">
+        A browser with canvas support is needed to display the 3D product.
+      </canvas>
+      <p id="model-loading" role="status" hidden>Loading 3D model…</p>
+      <div class="preview-heading">
+        <span class="preview-label">3D concept preview</span>
+        <h2 id="product-title">Carton</h2>
+        <p id="product-dimensions" hidden></p>
+        <div class="preview-details">
+          <p id="pilot-status" class="pilot-status">Production fit to confirm</p>
+          <a id="product-dieline-link" class="dieline-link" target="_blank" rel="noopener" hidden>View dieline<span class="sr-only"> (opens in a new tab)</span></a>
+        </div>
+      </div>
+      <div class="preview-footer">
+        <div class="viewport-controls" role="group" aria-label="3D view controls">
+          <button type="button" id="zoom-out" title="Zoom out" aria-label="Zoom out"><svg class="icon" aria-hidden="true"><use href="#icon-minus"></use></svg></button>
+          <button type="button" id="zoom-in" title="Zoom in" aria-label="Zoom in"><svg class="icon" aria-hidden="true"><use href="#icon-plus"></use></svg></button>
+          <button type="button" id="view-front" title="View print panel" aria-label="View print panel"><svg class="icon" aria-hidden="true"><use href="#icon-front"></use></svg></button>
+          <button type="button" id="view-reset" title="Reset view" aria-label="Reset view"><svg class="icon" aria-hidden="true"><use href="#icon-reset"></use></svg></button>
+        </div>
+        <div id="box-settings">
+          <button id="lid-toggle" class="secondary-button" type="button" aria-controls="product-canvas">Open closure</button>
+        </div>
+        <div class="preview-help">Drag to rotate</div>
+      </div>
+      <p id="preview-status" class="sr-only" role="status" aria-live="polite"></p>
+    </section>
+
+    <section class="project-settings" aria-label="Product, color, and logo options">
+      <div class="config-block">
+        <div class="field-heading">
+          <label id="product-size-label" for="product-size">Dieline</label>
+        </div>
+        <select id="product-size"></select>
+      </div>
+
+      <fieldset id="print-color-settings" class="config-block" hidden>
+        <legend>Print color</legend>
+        <div class="print-color-controls">
+          <div>
+            <label for="print-color-scope">Apply to</label>
+            <select id="print-color-scope"></select>
+          </div>
+          <div>
+            <label for="print-color-picker">Preview color</label>
+            <input id="print-color-picker" type="color" value="#ffffff" aria-describedby="print-color-help">
+          </div>
+        </div>
+        <fieldset class="ink-controls">
+          <legend>CMYK (%)</legend>
+          <div class="ink-fields">
+            <label for="print-ink-c">
+              <span aria-hidden="true">C</span><span class="sr-only">Cyan</span>
+              <input id="print-ink-c" type="number" min="0" max="100" step="any" inputmode="decimal" placeholder="0">
+            </label>
+            <label for="print-ink-m">
+              <span aria-hidden="true">M</span><span class="sr-only">Magenta</span>
+              <input id="print-ink-m" type="number" min="0" max="100" step="any" inputmode="decimal" placeholder="0">
+            </label>
+            <label for="print-ink-y">
+              <span aria-hidden="true">Y</span><span class="sr-only">Yellow</span>
+              <input id="print-ink-y" type="number" min="0" max="100" step="any" inputmode="decimal" placeholder="0">
+            </label>
+            <label for="print-ink-k">
+              <span aria-hidden="true">K</span><span class="sr-only">Black</span>
+              <input id="print-ink-k" type="number" min="0" max="100" step="any" inputmode="decimal" placeholder="0">
+            </label>
+          </div>
+        </fieldset>
+        <div class="print-color-footer">
+          <p id="print-color-help">Screen preview is approximate.</p>
+          <button id="print-color-clear" class="text-button" type="button">Clear color</button>
+        </div>
+        <p id="print-color-status" role="status" aria-live="polite"></p>
+      </fieldset>
+
+      <div id="ribbon-settings" class="config-block" hidden>
+        <label class="field-label" for="ribbon-color">Ribbon color</label>
+        <select id="ribbon-color"></select>
+      </div>
+
+      <div id="logo-settings" class="logo-block">
+        <div class="field-heading">
+          <label for="logo-panel">Print panel</label>
+          <span id="panel-art-count" role="status"></span>
+        </div>
+        <select id="logo-panel"></select>
+        <label class="field-label" for="logo-file">Your logo <span>Optional</span></label>
+        <div class="upload-row">
+          <div class="upload-box">
+            <input type="file" id="logo-file" accept="image/png,image/jpeg,image/webp" aria-describedby="logo-name">
+            <span class="upload-icon" aria-hidden="true"><svg class="icon"><use href="#icon-upload"></use></svg></span>
+            <span class="upload-copy" aria-hidden="true">Upload your logo<small id="logo-name">PNG, JPG or WebP</small></span>
+          </div>
+          <button class="icon-button" type="button" id="logo-remove" aria-label="Remove logo from this panel" title="Remove logo from this panel" hidden><svg class="icon" aria-hidden="true"><use href="#icon-close"></use></svg></button>
+        </div>
+        <button id="logo-sample" class="text-button" type="button">Try a sample logo</button>
+        <fieldset id="logo-controls" class="logo-controls" disabled>
+          <legend class="sr-only">Logo placement</legend>
+          <div class="range-fields">
+            <label for="logo-scale">Scale<input type="range" id="logo-scale" min="20" max="85" value="55"></label>
+            <label for="logo-x">Horizontal position<input type="range" id="logo-x" min="-75" max="75" value="0"></label>
+            <label for="logo-y">Vertical position<input type="range" id="logo-y" min="-75" max="75" value="0"></label>
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="quote-action" hidden>
+        <button id="quote-open" class="primary-button" type="button">Request a quote</button>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="quote-dialog" aria-labelledby="quote-title">
+    <div class="dialog-top">
+      <div>
+        <h2 id="quote-title">Request a quote</h2>
+        <p>The pilot saves a local ZIP with your specs, logo, and 3D preview.</p>
+      </div>
+      <button class="icon-button" type="button" title="Close" aria-label="Close" data-dialog-close><svg class="icon" aria-hidden="true"><use href="#icon-close"></use></svg></button>
+    </div>
+    <p id="quote-summary" class="quote-summary"></p>
+    <form id="quote-form">
+      <div class="quote-fields">
+        <label>Quantity<input type="number" name="quantity" min="1" max="1000000" step="1" inputmode="numeric" placeholder="e.g. 500" required></label>
+        <label>Needed by <span>Optional</span><input type="date" name="neededBy"></label>
+        <label>Email<input type="email" name="email" autocomplete="email" required></label>
+        <label>Name <span>Optional</span><input type="text" name="name" autocomplete="name" maxlength="120"></label>
+        <label class="span-two">Delivery location <span>Optional</span><input type="text" name="destination" autocomplete="address-level2" maxlength="160"></label>
+        <label class="span-two">Notes <span>Optional</span><textarea name="notes" rows="3" maxlength="1000"></textarea></label>
+      </div>
+      <button class="primary-button" type="submit">Submit quote request</button>
+    </form>
+    <p id="quote-result" role="status" aria-live="polite"></p>
+  </dialog>
+</body>
+</html>
